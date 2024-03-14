@@ -73,7 +73,6 @@ spec:
           image: "{{ .Values.zabbixServer.image.repository }}:{{ .Values.zabbixImageTag }}"
           {{- end }}
           env:
-            {{- include "zabbix.postgresAccess.variables" (list $ . "zabbix") | nindent 12 }}
           securityContext:
             {{- toYaml .Values.zabbixServer.securityContext | nindent 12 }}
           resources:
@@ -118,7 +117,7 @@ spec:
               hostIP: {{ .Values.zabbixServer.hostIP }}
               {{- end}}
           env:
-            {{- include "zabbix.postgresAccess.variables" (list $ . "zabbix") | nindent 12 }}
+            {{- include "zabbix.mysqlAccess.variables" (list $ . "zabbix") | nindent 12 }}
             {{- range $item := .Values.zabbixServer.extraEnv }}
             - name: {{ $item.name }}
               value: {{ $item.value | quote }}

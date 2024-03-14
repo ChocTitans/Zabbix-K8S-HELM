@@ -42,7 +42,7 @@ postgresAccess:
   # -- Whether to use the unified PostgreSQL access secret
   useUnifiedSecret: true
   # -- Name of one secret for unified configuration of PostgreSQL access
-  unifiedSecretName: zabbixdb-pguser-zabbix
+  unifiedSecretName: zabbixdb-mysqluser-zabbix
   # -- automatically create secret if not already present (works only in combination with postgresql.enabled=true)
   unifiedSecretAutoCreate: true
   #
@@ -50,17 +50,17 @@ postgresAccess:
   # These settings will be used for all components of this chart where it makes sense (zabbix server, postgresql,
   # web frontend, ...)
   # -- Address of database host - ignored if postgresql.enabled=true
-  host: "zabbix-postgresql"
+  host: "my-release-mariadb-galera"
   # -- Port of database host - ignored if postgresql.enabled=true
-  port: "5432"
+  port: 3306
   # -- User of database
-  user: "zabbix"
+  user: "root"
   # -- Name of a secret used for Postgres Password, if set, it overrules the POSTGRES_PASSWORD value
   #passwordSecret: mysecret
   # -- Key of the secret used for Postgres Password, requires POSTGRES_PASSWORD_SECRET, defaults to password
   #passwordSecretKey: "password"
   # -- Password of database - ignored if passwordSecret is set
-  password: "zabbix"
+  password: "d2brjad8bb"
   # -- Name of database
   database: "zabbix"
 
@@ -69,7 +69,7 @@ zabbixServer:
   # -- Enables use of **Zabbix Server**
   enabled: true
   # -- Number of replicas of ``zabbixServer`` module
-  replicaCount: 2
+  replicaCount: 1
   # -- set permissive podAntiAffinity to spread replicas over cluster nodes if replicaCount>1
   podAntiAffinity: true
   # -- optional set true open a port direct on node where Zabbix Server runs
@@ -80,7 +80,7 @@ zabbixServer:
   resources: {}
   image:
     # -- Zabbix Server Docker image name
-    repository: zabbix/zabbix-server-pgsql
+    repository: zabbix/zabbix-server-mysql
     # -- Zabbix Server Docker image tag, if you want to override zabbixImageTag
     tag: null
     # -- Pull policy of Docker image
@@ -89,7 +89,7 @@ zabbixServer:
     pullSecrets: []
   # -- automatically clean orphaned ha nodes from ha_nodes db table
   haNodesAutoClean:
-    enabled: true
+    enabled: false
     image:
       # -- Postgresql Docker image name: chose one of "postgres" or "timescale/timescaledb"
       repository: postgres
@@ -184,7 +184,7 @@ zabbixServer:
 # **PostgreSQL** configurations
 postgresql:
   # -- Create a database using Postgresql
-  enabled: true
+  enabled: false
   image:
     # -- Postgresql Docker image name: chose one of "postgres" or "timescale/timescaledb"
     repository: postgres
@@ -424,7 +424,7 @@ zabbixWeb:
   resources: {}
   image:
     # -- Zabbix Web Docker image name
-    repository: zabbix/zabbix-web-nginx-pgsql
+    repository: zabbix/zabbix-web-nginx-mysql
     # -- Zabbix Web Docker image tag, if you want to override zabbixImageTag
     tag: null
     # -- Pull policy of Docker image

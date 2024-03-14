@@ -43,7 +43,6 @@ spec:
         securityContext:
           {{- toYaml .Values.zabbixServer.jobDBSchema.securityContext | nindent 10 }}
         env:
-          {{- include "zabbix.postgresAccess.variables" (list $ . "zabbix") | nindent 10 }}
           {{- range $item := .Values.zabbixServer.extraEnv }}
           - name: {{ $item.name }}
             value: {{ $item.value | quote }}

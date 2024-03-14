@@ -101,14 +101,14 @@ Define env var names
 {{/*
 Return the entire logic of setting PostgreSQL access related env vars for the containers which need them
 */}}
-{{- define "zabbix.postgresAccess.variables" -}}
+{{- define "zabbix.mysqlAccess.variables" -}}
 {{- $ := index . 0 }}
 {{- $cntxt := index . 2 }}
 {{- $hostvar := "DB_SERVER_HOST" }}
 {{- $portvar := "DB_SERVER_PORT" }}
-{{- $uservar := "POSTGRES_USER" }}
-{{- $passwordvar := "POSTGRES_PASSWORD" }}
-{{- $dbvar := "POSTGRES_DB" }}
+{{- $uservar := "MYSQL_USER" }}
+{{- $passwordvar := "MYSQL_PASSWORD" }}
+{{- $dbvar := "MYSQL_DATABASE" }}
 {{/* special settings for the DB client (autoclean cron job) container, needs different env variable names */}}
 {{- if eq $cntxt "db_client" }}
 {{- $hostvar = "PGHOST" }}
