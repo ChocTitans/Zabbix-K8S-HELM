@@ -61,21 +61,21 @@ data:
 
     # Check prerequisites for PostgreSQL database
     check_variables_postgresql() {
-        file_env POSTGRES_USER
-        file_env POSTGRES_PASSWORD
+        file_env MYSQL_USER
+        file_env MYSQL_PASSWORD
 
-        : ${DB_SERVER_HOST:="postgres-server"}
-        : ${DB_SERVER_PORT:="5432"}
+        : ${DB_SERVER_HOST:="my-release-mariadb-galera"}
+        : ${DB_SERVER_PORT:="3306"}
 
-        DB_SERVER_ROOT_USER=${POSTGRES_USER:-"postgres"}
-        DB_SERVER_ROOT_PASS=${POSTGRES_PASSWORD:-""}
+        DB_SERVER_ROOT_USER=${MYSQL_USER:-"root"}
+        DB_SERVER_ROOT_PASS=${MYSQL_PASSWORD:-""}
 
-        DB_SERVER_ZBX_USER=${POSTGRES_USER:-"zabbix"}
-        DB_SERVER_ZBX_PASS=${POSTGRES_PASSWORD:-"zabbix"}
+        DB_SERVER_ZBX_USER=${MYSQL_USER:-"root"}
+        DB_SERVER_ZBX_PASS=${MYSQL_PASSWORD:-"d2brjad8bb"}
 
         : ${DB_SERVER_SCHEMA:="public"}
 
-        DB_SERVER_DBNAME=${POSTGRES_DB:-"zabbix"}
+        DB_SERVER_DBNAME=${MYSQL_DATABASE:-"zabbix"}
     }
 
     check_db_connect_postgresql() {
@@ -91,7 +91,7 @@ data:
         echo "********************"
 
         if [ -n "${DB_SERVER_ZBX_PASS}" ]; then
-            export PGPASSWORD="${DB_SERVER_ZBX_PASS}"
+            export MSPASSWORD="${DB_SERVER_ZBX_PASS}"
         fi
 
         WAIT_TIMEOUT=5
@@ -103,14 +103,14 @@ data:
 
         while true :
         do
-            psql --host ${DB_SERVER_HOST} --port ${DB_SERVER_PORT} --username ${DB_SERVER_ROOT_USER} --list --quiet 1>/dev/null 2>&1 && break
-            psql --host ${DB_SERVER_HOST} --port ${DB_SERVER_PORT} --username ${DB_SERVER_ROOT_USER} --list --dbname ${DB_SERVER_DBNAME} --quiet 1>/dev/null 2>&1 && break
+            mysql --host ${DB_SERVER_HOST} --port ${DB_SERVER_PORT} --username ${DB_SERVER_ROOT_USER} --list --quiet 1>/dev/null 2>&1 && break
+            mysql --host ${DB_SERVER_HOST} --port ${DB_SERVER_PORT} --username ${DB_SERVER_ROOT_USER} --list --dbname ${DB_SERVER_DBNAME} --quiet 1>/dev/null 2>&1 && break
 
             echo "**** PostgreSQL server is not available. Waiting $WAIT_TIMEOUT seconds..."
             sleep $WAIT_TIMEOUT
         done
 
-        unset PGPASSWORD
+        unset MSPASSWORD
         unset PGOPTIONS
     }
 
@@ -121,7 +121,7 @@ data:
         local result=""
 
         if [ -n "${DB_SERVER_ZBX_PASS}" ]; then
-            export PGPASSWORD="${DB_SERVER_ZBX_PASS}"
+            export MSPASSWORD="${DB_SERVER_ZBX_PASS}"
         fi
 
         if [ -n "${DB_SERVER_SCHEMA}" ]; then
@@ -129,10 +129,10 @@ data:
             export PGOPTIONS
         fi
 
-        result=$(psql --no-align --quiet --tuples-only --host "${DB_SERVER_HOST}" --port "${DB_SERVER_PORT}" \
+        result=$(mysql --no-align --quiet --tuples-only --host "${DB_SERVER_HOST}" --port "${DB_SERVER_PORT}" \
                 --username "${DB_SERVER_ROOT_USER}" --command "$query" --dbname "$db" 2>/dev/null);
 
-        unset PGPASSWORD
+        unset MSPASSWORD
         unset PGOPTIONS
 
         echo $result
