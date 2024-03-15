@@ -69,7 +69,7 @@ zabbixServer:
   # -- Enables use of **Zabbix Server**
   enabled: true
   # -- Number of replicas of ``zabbixServer`` module
-  replicaCount: 1
+  replicaCount: 2
   # -- set permissive podAntiAffinity to spread replicas over cluster nodes if replicaCount>1
   podAntiAffinity: true
   # -- optional set true open a port direct on node where Zabbix Server runs

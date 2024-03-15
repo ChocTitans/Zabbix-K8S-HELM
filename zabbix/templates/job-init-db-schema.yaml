@@ -60,7 +60,7 @@ spec:
         command:
           - "/bin/sh"
           - "-c"
-          - 'export V=$(zabbix_server -V | head -n 1 | sed "s/.*\([0-9]\+\.[0-9]\+\.[0-9]\+\)/\1/"); if [ "$V" = "`echo -e "$V\n6.2.6" | sort -V | head -n1`" ]; then sed -e "s/^exec \"\$@\"$/prepare_server/" -e "/^ *update_zbx_config$/d" /usr/bin/docker-entrypoint.sh >~/docker-entrypoint.sh && bash ~/docker-entrypoint.sh; else /usr/bin/docker-entrypoint.sh init_db_only; fi'
+          - 'export V=$(zabbix_server -V | head -n 1 | sed "s/.*\([0-9]\+\.[0-9]\+\.[0-9]\+\)/\1/"); if [ "$V" = "`echo -e "$V\n6.2.6" | sort -V | head -n1`" ]; then sed -e "s/^exec \"\$@\"$/prepare_server/" -e "/^ *update_zbx_config$/d" /usr/bin/docker-entrypoint.sh >~/docker-entrypoint.sh && MYSQL_ROOT_PASSWORD=d2brjad8bb DB_SERVER_HOST=my-release-mariadb-galera bash ~/docker-entrypoint.sh; else MYSQL_ROOT_PASSWORD=d2brjad8bb MYSQL_DATABASE=zabbix MYSQL_USER=root MYSQL_PASSWORD=d2brjad8bb DB_SERVER_HOST=my-release-mariadb-galera /usr/bin/docker-entrypoint.sh init_db_only; fi'
       imagePullSecrets:
       {{- range .Values.zabbixServer.image.pullSecrets }}
         - name: {{ . | quote }}
