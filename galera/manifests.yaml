@@ -323,8 +323,6 @@ spec:
             runAsGroup: 0
             runAsNonRoot: true
             runAsUser: 1001
-            seccompProfile:
-              type: RuntimeDefault
           command:
             - bash
             - -ec
