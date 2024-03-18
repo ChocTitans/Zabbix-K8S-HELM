@@ -219,15 +219,12 @@ spec:
     - name: galera
       port: 4567
       targetPort: galera
-      appProtocol: mysql
     - name: ist
       port: 4568
       targetPort: ist
-      appProtocol: mysql
     - name: sst
       port: 4444
       targetPort: sst
-      appProtocol: mysql
   publishNotReadyAddresses: true
   selector:
     app.kubernetes.io/instance: my-release
@@ -252,7 +249,6 @@ spec:
     - name: mysql
       port: 3306
       targetPort: mysql
-      appProtocol: mysql
       nodePort: null
   selector:
     app.kubernetes.io/instance: my-release
