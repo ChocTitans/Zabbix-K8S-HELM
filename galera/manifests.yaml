@@ -438,6 +438,7 @@ spec:
           app.kubernetes.io/name: mariadb-galera
           app.kubernetes.io/managed-by: Helm
       spec:
+        storageClassName: nfs-client
         accessModes:
           - "ReadWriteOnce"
         resources:
