@@ -76,18 +76,18 @@ data:
   my.cnf: |
     [client]
     port=3306
-    socket=/home/administrator/opt/bitnami/mariadb/tmp/mysql.sock
-    plugin_dir=/home/administrator/opt/bitnami/mariadb/plugin
+    socket=/opt/bitnami/mariadb/tmp/mysql.sock
+    plugin_dir=/opt/bitnami/mariadb/plugin
     
     [mysqld]
     explicit_defaults_for_timestamp
     default_storage_engine=InnoDB
-    basedir=/home/administrator/opt/bitnami/mariadb
-    datadir=/home/administrator/bitnami/mariadb/data
-    plugin_dir=/home/administrator/opt/bitnami/mariadb/plugin
-    tmpdir=/home/administrator/opt/bitnami/mariadb/tmp
-    socket=/home/administrator/opt/bitnami/mariadb/tmp/mysql.sock
-    pid_file=/home/administrator/opt/bitnami/mariadb/tmp/mysqld.pid
+    basedir=/opt/bitnami/mariadb
+    datadir=/bitnami/mariadb/data
+    plugin_dir=/opt/bitnami/mariadb/plugin
+    tmpdir=/opt/bitnami/mariadb/tmp
+    socket=/opt/bitnami/mariadb/tmp/mysql.sock
+    pid_file=/opt/bitnami/mariadb/tmp/mysqld.pid
     bind_address=0.0.0.0
     
     ## Character set
@@ -153,8 +153,8 @@ data:
     
     ## Logging
     ##
-    log_error=/home/administrator/opt/bitnami/mariadb/logs/mysqld.log
-    slow_query_log_file=/home/administrator/opt/bitnami/mariadb/logs/mysqld.log
+    log_error=/opt/bitnami/mariadb/logs/mysqld.log
+    slow_query_log_file=/opt/bitnami/mariadb/logs/mysqld.log
     log_queries_not_using_indexes=1
     slow_query_log=1
     
@@ -166,7 +166,7 @@ data:
     
     [galera]
     wsrep_on=ON
-    wsrep_provider=/home/administrator/opt/bitnami/mariadb/lib/libgalera_smm.so
+    wsrep_provider=/opt/bitnami/mariadb/lib/libgalera_smm.so
     wsrep_sst_method=mariabackup
     wsrep_slave_threads=4
     wsrep_cluster_address=gcomm://
@@ -404,7 +404,7 @@ spec:
             failureThreshold: 3
           volumeMounts:
             - name: previous-boot
-              mountPath: /home/administrator/opt/bitnami/mariadb/.bootstrap
+              mountPath: /opt/bitnami/mariadb/.bootstrap
             - name: data
               mountPath: /bitnami/mariadb
             - name: mariadb-galera-config
@@ -414,13 +414,13 @@ spec:
               mountPath: /tmp
               subPath: tmp-dir
             - name: empty-dir
-              mountPath: /home/administrator/opt/bitnami/mariadb/conf
+              mountPath: /opt/bitnami/mariadb/conf
               subPath: app-conf-dir
             - name: empty-dir
-              mountPath: /home/administrator/opt/bitnami/mariadb/tmp
+              mountPath: /opt/bitnami/mariadb/tmp
               subPath: app-tmp-dir
             - name: empty-dir
-              mountPath: /home/administrator/opt/bitnami/mariadb/logs
+              mountPath: /opt/bitnami/mariadb/logs
               subPath: app-logs-dir
       volumes:
         - name: previous-boot
