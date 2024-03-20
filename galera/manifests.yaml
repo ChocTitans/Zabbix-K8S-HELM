@@ -360,9 +360,9 @@ spec:
                       password_aux=$(cat "$MARIADB_ROOT_PASSWORD_FILE")
                   fi
                   exec mysqladmin status -u"${MARIADB_ROOT_USER}" -p"${password_aux}"
-            initialDelaySeconds: 30
-            periodSeconds: 10
-            timeoutSeconds: 1
+            initialDelaySeconds: 120
+            periodSeconds: 20
+            timeoutSeconds: 2
             successThreshold: 1
             failureThreshold: 3
           volumeMounts:
