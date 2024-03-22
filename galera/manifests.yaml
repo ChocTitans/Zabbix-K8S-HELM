@@ -359,7 +359,7 @@ spec:
                   if [[ -f "${MARIADB_ROOT_PASSWORD_FILE:-}" ]]; then
                       password_aux=$(cat "$MARIADB_ROOT_PASSWORD_FILE")
                   fi
-                  exec mysqladmin status -u"${MARIADB_ROOT_USER}" -p"${password_aux}"
+                  exec /opt/bitnami/mariadb/bin/mariadb-admin status -u"${MARIADB_ROOT_USER}" -p"${password_aux}"
             initialDelaySeconds: 120
             periodSeconds: 20
             timeoutSeconds: 2
